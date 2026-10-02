@@ -3,7 +3,7 @@ import {
   X,
   Home,
   TrendingUp,
-  Hammer,
+  Tag,
   Camera,
   ChevronRight,
   Sparkles,
@@ -11,7 +11,7 @@ import {
   CheckCircle2,
   Upload,
   Trash2,
-  Image as ImageIcon
+  Key
 } from 'lucide-react';
 import { generateListingDescription } from '../services/qwenAi';
 import { PostData, ListingType } from '../types';
@@ -22,7 +22,7 @@ interface CreateListingModalProps {
   onSubmit?: (listing: Partial<PostData>) => void;
 }
 
-type Tab = 'RENTAL' | 'INVESTMENT' | 'SERVICE';
+type Tab = 'RENTAL' | 'SALE' | 'INVESTMENT';
 
 export const CreateListingModal: React.FC<CreateListingModalProps> = ({ isOpen, onClose, onSubmit }) => {
   if (!isOpen) return null;
@@ -115,7 +115,7 @@ export const CreateListingModal: React.FC<CreateListingModalProps> = ({ isOpen, 
     setIsAiGenerating(true);
     try {
       const generated = await generateListingDescription({
-        title: title || (activeTab === 'RENTAL' ? 'Appartement Haut Standing' : activeTab === 'INVESTMENT' ? 'Projet Résidence Airbnb' : 'Service de maintenance'),
+        title: title || (activeTab === 'RENTAL' ? 'Appartement Haut Standing' : activeTab === 'SALE' ? 'Villa Contemporaine à Vendre' : 'Projet Résidence Airbnb'),
         type: activeTab,
         location: location || 'Cotonou, Bénin',
         price: activeTab === 'INVESTMENT' ? minInvestment : price,
@@ -131,17 +131,22 @@ export const CreateListingModal: React.FC<CreateListingModalProps> = ({ isOpen, 
 
   const handleSubmit = () => {
     const mainImg = uploadedImages[selectedMainImageIndex] || uploadedImages[0] || 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80';
-    const formattedPrice = price ? `${parseInt(price).toLocaleString('fr-FR')} CFA/mois` : activeTab === 'INVESTMENT' ? 'Min: 10 000 CFA' : '250 000 CFA/mois';
+    
+    const formattedPrice = activeTab === 'SALE'
+      ? `${parseInt(price || '45000000').toLocaleString('fr-FR')} CFA`
+      : activeTab === 'RENTAL'
+      ? `${parseInt(price || '250000').toLocaleString('fr-FR')} CFA/mois`
+      : 'Min: 10 000 CFA';
 
     const newListing: Partial<PostData> = {
       id: `listing-${Date.now()}`,
       author: {
         name: 'Caleb N.',
-        headline: 'Agence Prestige Immobilier • Cotonou & Abidjan',
+        headline: 'Propriétaire • Cotonou',
         avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        badge: 'Agent'
+        badge: 'Verified'
       },
-      content: `${title || 'Nouvelle opportunité immobilière'}\n\n${description || 'Superbe bien disponible avec commodités complètes et garantie PaySafe.'}`,
+      content: `${title || (activeTab === 'SALE' ? 'Maison à Vendre' : 'Bien à Louer')}\n\n${description || 'Superbe opportunité disponible avec commodités complètes et visites directes.'}`,
       timestamp: "À l'instant",
       likes: 1,
       comments: 0,
@@ -152,7 +157,7 @@ export const CreateListingModal: React.FC<CreateListingModalProps> = ({ isOpen, 
       price: formattedPrice,
       location: location || 'Cotonou, Bénin',
       specs: activeTab === 'INVESTMENT' ? `${roi} Rendement Est.` : '3 Pièces • 2 Salles d\'eau',
-      description: description || 'Visite immédiate sur présentation de votre RentCV vérifié.',
+      description: description || 'Visite immédiate sur rendez-vous avec le propriétaire.',
       amenities: selectedAmenities,
       fundingProgress: activeTab === 'INVESTMENT' ? 10 : undefined,
       targetAmount: activeTab === 'INVESTMENT' ? `${targetAmount} CFA` : undefined,
@@ -177,23 +182,38 @@ export const CreateListingModal: React.FC<CreateListingModalProps> = ({ isOpen, 
         <div className="bg-white px-6 py-4 border-b border-gray-200 flex justify-between items-center flex-shrink-0">
           <div>
             <h2 className="text-lg font-bold text-gray-900 leading-tight">Publier une Annonce</h2>
-            <p className="text-xs text-gray-500">Visible par la communauté et investisseurs d'Afrique de l'Ouest</p>
+            <p className="text-xs text-gray-500">Mettez votre bien en location ou en vente auprès d'acheteurs et locataires</p>
           </div>
           <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
             <X className="w-5 h-5 text-gray-500" />
           </button>
         </div>
 
-        {/* Tabs */}
-        <div className="bg-white px-6 border-b border-gray-200 flex gap-6 flex-shrink-0">
+        {/* Tabs: Location / Vente / Investissement */}
+        <div className="bg-white px-6 border-b border-gray-200 flex gap-4 sm:gap-6 flex-shrink-0">
           <button
-            onClick={() => setActiveTab('RENTAL')}
+            onClick={() => {
+              setActiveTab('RENTAL');
+              if (price === '45000000') setPrice('250000');
+            }}
             className={`py-3 text-sm font-semibold border-b-2 transition-colors flex items-center gap-2 ${
               activeTab === 'RENTAL' ? 'border-linkedin-blue text-linkedin-blue' : 'border-transparent text-gray-500 hover:text-gray-700'
             }`}
           >
-            <Home className="w-4 h-4" />
-            Location / Vente
+            <Key className="w-4 h-4" />
+            Location (À Louer)
+          </button>
+          <button
+            onClick={() => {
+              setActiveTab('SALE');
+              if (price === '250000') setPrice('45000000');
+            }}
+            className={`py-3 text-sm font-semibold border-b-2 transition-colors flex items-center gap-2 ${
+              activeTab === 'SALE' ? 'border-green-600 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            <Tag className="w-4 h-4" />
+            Vente (À Vendre)
           </button>
           <button
             onClick={() => setActiveTab('INVESTMENT')}
@@ -202,16 +222,7 @@ export const CreateListingModal: React.FC<CreateListingModalProps> = ({ isOpen, 
             }`}
           >
             <TrendingUp className="w-4 h-4" />
-            Investissement Fractionné
-          </button>
-          <button
-            onClick={() => setActiveTab('SERVICE')}
-            className={`py-3 text-sm font-semibold border-b-2 transition-colors flex items-center gap-2 ${
-              activeTab === 'SERVICE' ? 'border-yellow-600 text-yellow-600' : 'border-transparent text-gray-500 hover:text-gray-700'
-            }`}
-          >
-            <Hammer className="w-4 h-4" />
-            Service Artisan
+            Investissement
           </button>
         </div>
 
@@ -261,7 +272,7 @@ export const CreateListingModal: React.FC<CreateListingModalProps> = ({ isOpen, 
             {uploadedImages.length > 0 && (
               <div className="mt-3">
                 <p className="text-[11px] font-semibold text-gray-500 mb-1.5">
-                  Cliquez sur une image pour la définir comme image de couverture :
+                  Cliquez sur une image pour la définir comme couverture :
                 </p>
                 <div className="flex gap-2.5 overflow-x-auto py-1 no-scrollbar">
                   {uploadedImages.map((imgUrl, idx) => (
@@ -301,20 +312,22 @@ export const CreateListingModal: React.FC<CreateListingModalProps> = ({ isOpen, 
                 type="text"
                 value={title}
                 onChange={e => setTitle(e.target.value)}
-                placeholder="Ex: Villa contemporaine avec piscine à Haie Vive"
+                placeholder={activeTab === 'SALE' ? "Ex: Belle Villa 4 Chambres avec Jardin à Cocody" : "Ex: Appartement F3 Moderne et Lumineux à Haie Vive"}
                 className="w-full border border-gray-300 rounded-lg px-3.5 py-2 text-sm focus:ring-2 focus:ring-linkedin-blue focus:outline-none"
               />
             </div>
 
-            {activeTab === 'RENTAL' && (
+            {(activeTab === 'RENTAL' || activeTab === 'SALE') && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 mb-1">Loyer Mensuel (CFA)</label>
+                  <label className="block text-xs font-bold text-gray-700 mb-1">
+                    {activeTab === 'RENTAL' ? 'Loyer Mensuel (CFA)' : 'Prix de Vente Total (CFA)'}
+                  </label>
                   <input
                     type="number"
                     value={price}
                     onChange={e => setPrice(e.target.value)}
-                    placeholder="250 000"
+                    placeholder={activeTab === 'RENTAL' ? "250 000" : "45 000 000"}
                     className="w-full border border-gray-300 rounded-lg px-3.5 py-2 text-sm focus:ring-2 focus:ring-linkedin-blue focus:outline-none font-semibold"
                   />
                 </div>
@@ -394,28 +407,6 @@ export const CreateListingModal: React.FC<CreateListingModalProps> = ({ isOpen, 
               </div>
             )}
 
-            {activeTab === 'SERVICE' && (
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-gray-700 mb-1">Corps d'état</label>
-                  <select className="w-full border border-gray-300 rounded-lg px-3.5 py-2 text-sm focus:ring-2 focus:ring-yellow-500 focus:outline-none bg-white">
-                    <option>Plomberie & Sanitaire</option>
-                    <option>Électricité & Climatisation</option>
-                    <option>Peinture & Décoration</option>
-                    <option>Sécurité & Gardiennage</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-gray-700 mb-1">Tarif indicatif</label>
-                  <input
-                    type="text"
-                    placeholder="15 000 CFA / intervention"
-                    className="w-full border border-gray-300 rounded-lg px-3.5 py-2 text-sm focus:ring-2 focus:ring-yellow-500 focus:outline-none"
-                  />
-                </div>
-              </div>
-            )}
-
             {/* Description & AI Generator */}
             <div>
               <div className="flex justify-between items-center mb-1.5">
@@ -454,7 +445,7 @@ export const CreateListingModal: React.FC<CreateListingModalProps> = ({ isOpen, 
         <div className="bg-gray-50 px-6 py-4 border-t border-gray-200 flex justify-between items-center flex-shrink-0">
           <span className="text-[11px] text-gray-500 flex items-center gap-1">
             <CheckCircle2 className="w-3.5 h-3.5 text-green-600" />
-            Publication certifiée IMMO
+            Publication directe IMMO
           </span>
           <div className="flex gap-3">
             <button
@@ -466,10 +457,10 @@ export const CreateListingModal: React.FC<CreateListingModalProps> = ({ isOpen, 
             <button
               onClick={handleSubmit}
               className={`px-6 py-2 text-white font-bold text-sm rounded-full transition-colors shadow-sm flex items-center gap-2 ${
-                activeTab === 'INVESTMENT'
+                activeTab === 'SALE'
+                  ? 'bg-green-600 hover:bg-green-700'
+                  : activeTab === 'INVESTMENT'
                   ? 'bg-purple-600 hover:bg-purple-700'
-                  : activeTab === 'SERVICE'
-                  ? 'bg-yellow-600 hover:bg-yellow-700'
                   : 'bg-linkedin-blue hover:bg-blue-700'
               }`}
             >

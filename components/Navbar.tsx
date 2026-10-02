@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Home, MapPin, Wallet, MessageSquare, Bell, Building2, TrendingUp, RefreshCw, ChevronDown } from 'lucide-react';
+import { Search, Home, MapPin, Wallet, MessageSquare, Bell, Building2, TrendingUp, RefreshCw, ChevronDown, Tag, Key } from 'lucide-react';
 import { ListingType } from '../types';
 
 export interface CityOption {
@@ -165,12 +165,21 @@ export const Navbar: React.FC<NavbarProps> = ({
             }}
           />
           <NavItem
-            icon={<MapPin className="w-5 h-5 sm:w-6 sm:h-6" />}
-            label="Biens"
+            icon={<Key className="w-5 h-5 sm:w-6 sm:h-6" />}
+            label="À Louer"
             active={currentFilter === 'RENTAL'}
             onClick={() => {
               if (isAgencyView && onToggleView) onToggleView();
               if (onFilterChange) onFilterChange('RENTAL');
+            }}
+          />
+          <NavItem
+            icon={<Tag className="w-5 h-5 sm:w-6 sm:h-6" />}
+            label="À Vendre"
+            active={currentFilter === 'SALE'}
+            onClick={() => {
+              if (isAgencyView && onToggleView) onToggleView();
+              if (onFilterChange) onFilterChange('SALE');
             }}
           />
           <NavItem
@@ -201,7 +210,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             active={showNotifications}
           />
 
-          {/* Profile RentCV */}
+          {/* Mon Compte */}
           <div
             onClick={onOpenProfile}
             className="flex flex-col items-center justify-center cursor-pointer px-2 min-w-[65px] h-full border-b-2 border-transparent text-gray-500 hover:text-black ml-1 border-l border-gray-100 pl-3 group"
@@ -214,7 +223,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               />
             </div>
             <span className="text-[11px] hidden md:flex items-center gap-0.5">
-              RentCV <span className="text-[9px]">▼</span>
+              Compte <span className="text-[9px]">▼</span>
             </span>
           </div>
 

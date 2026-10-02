@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { X, MapPin, Check, ShieldCheck, Share2, Heart, MessageSquare, TrendingUp, Users, Banknote, Calendar, Building2 } from 'lucide-react';
+import { X, MapPin, Check, ShieldCheck, Share2, Heart, MessageSquare, TrendingUp, Users, Banknote, Calendar, Building2, Phone } from 'lucide-react';
 import { PostData } from '../types';
 
 interface ListingDetailModalProps {
@@ -170,9 +170,12 @@ export const ListingDetailModal: React.FC<ListingDetailModalProps> = ({ listing,
                                 <MessageSquare className="w-4 h-4" />
                                 Chat
                             </button>
-                            <button className="flex-[2] py-3 bg-linkedin-blue text-white rounded-full font-bold text-sm hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 shadow-lg shadow-blue-200">
-                                <Building2 className="w-4 h-4" />
-                                Postuler RentCV
+                            <button 
+                              onClick={() => alert(`Demande de visite transmise à ${listing.author.name} ! Le propriétaire prendra contact avec vous sur votre numéro WhatsApp.`)}
+                              className="flex-[2] py-3 bg-linkedin-blue text-white rounded-full font-bold text-sm hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 shadow-lg shadow-blue-200"
+                            >
+                                <Phone className="w-4 h-4" />
+                                Demander une Visite
                             </button>
                         </div>
                     )}

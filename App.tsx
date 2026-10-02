@@ -5,7 +5,7 @@ import { Feed } from './components/Feed';
 import { SidebarRight } from './components/SidebarRight';
 import { MessagingWidget } from './components/MessagingWidget';
 import { WalletModal } from './components/WalletModal';
-import { RentCVModal } from './components/RentCVModal';
+import { UserProfileModal } from './components/UserProfileModal';
 import { LandlordDashboard } from './components/LandlordDashboard';
 import { ListingDetailModal } from './components/ListingDetailModal';
 import { CreateListingModal } from './components/CreateListingModal';
@@ -24,7 +24,7 @@ const INITIAL_POSTS: PostData[] = [
       avatarUrl: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&q=80',
       badge: 'Pro'
     },
-    content: '🏡 Nouveau Bien : Appartement moderne 3 pièces à Haie Vive, Cotonou.\n\nCaractéristiques :\n- Sécurité 24/7\n- Groupe Électrogène\n- Fibre Optique\n- Paiement flexible via Wave & Mobile Money accepté.\n\nDM pour visite ou postulez directement via RentCV.',
+    content: '🏡 À LOUER : Appartement moderne 3 pièces à Haie Vive, Cotonou.\n\nCaractéristiques :\n- Sécurité 24/7\n- Groupe Électrogène\n- Fibre Optique\n- Paiement flexible via Wave & Mobile Money accepté.\n\nContactez-nous directement pour organiser une visite.',
     timestamp: '2h',
     likes: 45,
     comments: 12,
@@ -34,7 +34,7 @@ const INITIAL_POSTS: PostData[] = [
     price: '250 000 CFA/mois',
     location: 'Haie Vive, Cotonou',
     specs: '3 Chambres • 2 Douches',
-    description: "Situé au cœur du quartier des expatriés de Cotonou, cet appartement offre un cadre de vie luxueux.\n\nLa résidence dispose d'une piscine, d'une salle de sport et d'un service de conciergerie 24h/24. Parfait pour les professionnels.\n\nVérifié par Immo pour les paiements 'PaySafe'.",
+    description: "Situé au cœur du quartier résidentiel de Haie Vive à Cotonou, cet appartement offre un cadre de vie calme et sécurisé.\n\nLa résidence dispose d'un gardiennage 24h/24, parking intérieur et groupe électrogène. Idéal pour cadres et familles.\n\nPaiements sécurisés via Wave et Mobile Money (garantie PaySafe™ incluse).",
     amenities: ['Climatisation', 'Piscine', 'Groupe Électrogène', 'Sécurité 24/7', 'Internet Fibre', 'Parking'],
     images: [
       'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
@@ -43,13 +43,42 @@ const INITIAL_POSTS: PostData[] = [
     ],
     isAiRecommended: true,
     matchScore: 94,
-    matchReason: 'Correspond à votre trajet de 25min max'
+    matchReason: 'Correspond à vos critères de recherche récents'
+  },
+  {
+    id: 'sale-1',
+    author: {
+      name: 'Kouamé & Associés',
+      headline: 'Agence Immobilière Agréée • Abidjan',
+      avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      badge: 'Agent'
+    },
+    content: '🏷️ À VENDRE : Villa Duplex Moderne 5 Pièces à Cocody Riviera Palmeraie.\n\nCaractéristiques :\n- 4 Chambres autonomes + Dépendance\n- Grand salon lumineux avec baie vitrée\n- Cour avant & Garage 2 véhicules\n- Titre Foncier (ACD) disponible et vérifié.\n\nContactez-nous directement pour visiter ce bien.',
+    timestamp: '3h',
+    likes: 67,
+    comments: 18,
+    reposts: 12,
+    imageUrl: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+    listingType: 'SALE',
+    price: '95 000 000 CFA',
+    location: "Cocody Riviera, Abidjan",
+    specs: '5 Pièces • 4 Douches • ACD',
+    description: "Superbe villa duplex dans une cité fermée et sécurisée à Cocody Riviera Palmeraie. Finitions haut de gamme, cuisine aménagée, titre foncier définitif (ACD) en règle. Visite sur rendez-vous.",
+    amenities: ['Climatisation', 'Garage', 'Sécurité 24/7', 'Forage Eau', 'Balcon', 'Jardin'],
+    images: [
+      'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+    ],
+    isAiRecommended: true,
+    matchScore: 96,
+    matchReason: 'Titre Foncier ACD vérifié'
   },
   {
     id: '2',
     author: {
       name: 'ImmoInvest Africa',
-      headline: 'Plateforme d\'Investissement Fractionné • Abidjan',
+      headline: 'Plateforme d\'Investissement Fractionné • Assinie',
       avatarUrl: 'https://images.unsplash.com/photo-1554469384-e58fac16e23a?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&q=80',
       badge: 'Verified'
     },
@@ -116,7 +145,7 @@ const App: React.FC = () => {
   });
 
   const [isWalletOpen, setIsWalletOpen] = useState(false);
-  const [isRentCVOpen, setIsRentCVOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isContractOpen, setIsContractOpen] = useState(false);
   const [isCreateListingOpen, setIsCreateListingOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
@@ -124,7 +153,7 @@ const App: React.FC = () => {
   const [isMessagingOpen, setIsMessagingOpen] = useState(false);
   const [viewMode, setViewMode] = useState<'TENANT' | 'AGENCY'>('TENANT');
   const [selectedListing, setSelectedListing] = useState<PostData | null>(null);
-  const [feedFilter, setFeedFilter] = useState<'ALL' | ListingType>('RENTAL');
+  const [feedFilter, setFeedFilter] = useState<'ALL' | ListingType>('ALL');
   const [selectedCity, setSelectedCity] = useState<string>('ALL');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [publishedToast, setPublishedToast] = useState<string | null>(null);
@@ -143,7 +172,7 @@ const App: React.FC = () => {
       id: newPostData.id || `post-${Date.now()}`,
       author: newPostData.author || {
         name: 'Caleb N.',
-        headline: 'Membre Certifié RentCV',
+        headline: 'Propriétaire • Membre Certifié',
         avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
         badge: 'Verified'
       },
@@ -153,6 +182,7 @@ const App: React.FC = () => {
       comments: 0,
       reposts: 0,
       imageUrl: newPostData.imageUrl,
+      images: newPostData.images,
       listingType: newPostData.listingType || 'RENTAL',
       price: newPostData.price,
       location: newPostData.location,
@@ -182,7 +212,7 @@ const App: React.FC = () => {
         showNotifications={showNotifications}
         onToggleMessaging={() => setIsMessagingOpen(!isMessagingOpen)}
         isMessagingOpen={isMessagingOpen}
-        onOpenProfile={() => setIsRentCVOpen(true)}
+        onOpenProfile={() => setIsProfileOpen(true)}
         onFilterChange={setFeedFilter}
         currentFilter={feedFilter}
         selectedCity={selectedCity}
@@ -224,8 +254,8 @@ const App: React.FC = () => {
             {/* Left Sidebar */}
             <div className="hidden md:block md:col-span-3 lg:col-span-3">
               <SidebarLeft
-                onOpenRentCV={() => setIsRentCVOpen(true)}
-                onOpenContract={() => setIsContractOpen(true)}
+                onOpenProfile={() => setIsProfileOpen(true)}
+                onOpenCreatePost={() => setIsCreateListingOpen(true)}
                 onOpenServices={() => setIsServicesOpen(true)}
               />
             </div>
@@ -253,7 +283,7 @@ const App: React.FC = () => {
       <AiAssistant />
       <MessagingWidget isOpen={isMessagingOpen} onToggle={() => setIsMessagingOpen(!isMessagingOpen)} />
       <WalletModal isOpen={isWalletOpen} onClose={() => setIsWalletOpen(false)} />
-      <RentCVModal isOpen={isRentCVOpen} onClose={() => setIsRentCVOpen(false)} />
+      <UserProfileModal isOpen={isProfileOpen} onClose={() => setIsProfileOpen(false)} />
       <ContractModal isOpen={isContractOpen} onClose={() => setIsContractOpen(false)} />
       <ListingDetailModal listing={selectedListing} onClose={() => setSelectedListing(null)} />
       <CreateListingModal

@@ -61,7 +61,7 @@ export const MessagingWidget: React.FC<MessagingWidgetProps> = ({ isOpen, onTogg
                       <span className="text-sm font-semibold truncate">Agence Prestige</span>
                       <span className="text-xs text-gray-500">10:42</span>
                    </div>
-                   <p className="text-xs text-gray-500 truncate">Merci d'envoyer le RentCV en PDF...</p>
+                   <p className="text-xs text-gray-500 truncate">Bonjour ! Êtes-vous disponible pour une visite demain ?</p>
                 </div>
              </div>
 

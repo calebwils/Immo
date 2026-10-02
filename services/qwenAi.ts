@@ -28,7 +28,7 @@ Tes rôles clés :
 1. Analyse juridique de baux d'habitation (droit OHADA, conformité aux lois numériques du Bénin et de l'UEMOA, détection des clauses abusives, conseils de préavis).
 2. Estimation et négociation de loyers dans les quartiers réels (ex: Cotonou: Haie Vive, Cadjehoun, Fidjrossè, Ganhi; Abidjan: Cocody, Marcory, Plateau, Riviera, Assinie; Dakar: Almadies, Ngor, Plateau).
 3. Conseil en investissement immobilier fractionné, calculs de rentabilité brute/nette et dividendes Mobile Money (FCFA).
-4. Accompagnement des locataires (RentCV, solvabilité) et des bailleurs (gestion des impayés, maintenance artisans).
+4. Accompagnement des acheteurs et locataires (recherche ciblée, prise de contact, visites directes) et des propriétaires (mise en location, vente directe, estimation).
 
 Consignes :
 - Réponds toujours en français de manière claire, concise, professionnelle, chaleureuse et structurée (tirets, emojis pertinents).
@@ -143,7 +143,7 @@ function generateTailoredListingDescription(p: ListingParams): string {
     return `🚀 Opportunité d'investissement à ${loc} : ${title}.\n\nCe projet à fort potentiel locatif offre un rendement annuel prévisionnel attractif, géré par une équipe professionnelle locale. Commodités prévues : ${amenitiesStr}.\n\nTicket d'entrée dès ${price} avec distribution trimestrielle des dividendes directement sur votre portefeuille Wave ou Mobile Money. Propriété notariée et certifiée conforme.`;
   }
 
-  return `🏡 Découvrez ce magnifique bien situé au cœur de ${loc} : ${title}.\n\nOffrant un cadre de vie calme, sécurisé et lumineux, cet espace bénéficie de prestations haut de gamme comprenant notamment : ${amenitiesStr}. Proche de toutes commodités, des commerces et des principaux axes routiers.\n\nLoyer mensuel : ${price} avec facilité de règlement via Wave & Mobile Money sous protection PaySafe™. Visites organisées immédiatement sur présentation de votre dossier certifié RentCV.`;
+  return `🏡 Découvrez ce magnifique bien situé au cœur de ${loc} : ${title}.\n\nOffrant un cadre de vie calme, sécurisé et lumineux, cet espace bénéficie de prestations haut de gamme comprenant notamment : ${amenitiesStr}. Proche de toutes commodités, des commerces et des principaux axes routiers.\n\nLoyer mensuel : ${price} avec facilité de règlement via Wave & Mobile Money sous protection PaySafe™. Visites organisées immédiatement sur rendez-vous avec le propriétaire.`;
 }
 
 function generateGeneralFallback(prompt: string): string {

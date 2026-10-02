@@ -58,7 +58,7 @@ export const ContractModal: React.FC<ContractModalProps> = ({ isOpen, onClose })
         <div class="section">
           <div class="section-title">1. Désignation des Parties</div>
           <p><strong>BAILLEUR :</strong> Agence Prestige Immobilier, représentée par M. Kouamé, titulaire de la carte professionnelle Cotonou.</p>
-          <p><strong>LOCATAIRE :</strong> M. Caleb N., Ingénieur, titulaire du passeport locatif vérifié RentCV #IMMO-8291.</p>
+          <p><strong>LOCATAIRE :</strong> M. Caleb N., Ingénieur, demeurant à Cotonou.</p>
         </div>
 
         <div class="section">
@@ -86,7 +86,7 @@ export const ContractModal: React.FC<ContractModalProps> = ({ isOpen, onClose })
           <div class="sig-block">
             <strong>Le Locataire</strong><br/>
             <em>M. Caleb N.</em><br/>
-            <span style="font-size: 11px; color: #137333;">✓ Certifié par RentCV (#IMMO-8291)</span>
+            <span style="font-size: 11px; color: #137333;">✓ Signé électroniquement</span>
           </div>
         </div>
         <script>
@@ -150,7 +150,7 @@ export const ContractModal: React.FC<ContractModalProps> = ({ isOpen, onClose })
                        <h3 className="font-bold uppercase text-xs text-gray-500 mb-2">1. Les Parties</h3>
                        <p>Entre les soussignés :</p>
                        <p><strong>Le Bailleur :</strong> Agence Prestige Immobilier, représentée par M. Kouamé, sise à Cotonou.</p>
-                       <p><strong>Le Locataire :</strong> M. Caleb N., Ingénieur, titulaire du RentCV #IMMO-8291.</p>
+                       <p><strong>Le Locataire :</strong> M. Caleb N., Ingénieur, Cotonou.</p>
                     </section>
 
                     <section>
@@ -213,7 +213,7 @@ export const ContractModal: React.FC<ContractModalProps> = ({ isOpen, onClose })
                           <ul className="space-y-3">
                              <li className="flex items-center gap-2">
                                 <CheckCircle className="w-4 h-4 text-green-500" />
-                                <span>Identité Vérifiée (RentCV)</span>
+                                <span>Pièce d'Identité Validée</span>
                              </li>
                              <li className="flex items-center gap-2">
                                 <CheckCircle className="w-4 h-4 text-green-500" />
