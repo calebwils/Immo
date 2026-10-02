@@ -19,6 +19,90 @@ export const ContractModal: React.FC<ContractModalProps> = ({ isOpen, onClose })
     setStep('SIGNING');
   };
 
+  const handleDownloadPdf = () => {
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) {
+      alert("Veuillez autoriser les fenêtres contextuelles pour exporter le PDF.");
+      return;
+    }
+
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html lang="fr">
+      <head>
+        <meta charset="UTF-8">
+        <title>Contrat_de_Bail_Haie_Vive_CERT-BJ-2025-9821.pdf</title>
+        <style>
+          body { font-family: 'Times New Roman', serif; margin: 40px; color: #111; line-height: 1.6; }
+          .header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 25px; }
+          .title { font-size: 24px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; }
+          .cert-badge { background: #e6f4ea; color: #137333; padding: 6px 12px; border-radius: 4px; display: inline-block; font-size: 12px; font-weight: bold; margin-top: 10px; border: 1px solid #ceead6; }
+          .section { margin-bottom: 20px; }
+          .section-title { font-size: 14px; font-weight: bold; text-transform: uppercase; color: #444; border-bottom: 1px solid #ccc; padding-bottom: 4px; margin-bottom: 8px; }
+          .stamp-box { border: 2px dashed #0a66c2; padding: 15px; background: #f0f7ff; margin: 20px 0; border-radius: 8px; font-size: 13px; }
+          .signatures { display: flex; justify-content: space-between; margin-top: 50px; }
+          .sig-block { width: 45%; border-top: 1px solid #000; padding-top: 8px; }
+          @media print {
+            body { margin: 20mm; }
+          }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <p style="margin: 0; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #555;">RÉPUBLIQUE DU BÉNIN • ZONE UEMOA</p>
+          <div class="title">Bail d'Habitation Numérique Certifié</div>
+          <p style="margin: 5px 0 0 0; font-size: 13px; color: #666;">Référence Légale : #LEASE-2025-8821 • Conforme Loi N° 2017-20</p>
+          <div class="cert-badge">✓ CERTIFIAT NUMÉRIQUE : CERT-BJ-2025-9821-E8A</div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">1. Désignation des Parties</div>
+          <p><strong>BAILLEUR :</strong> Agence Prestige Immobilier, représentée par M. Kouamé, titulaire de la carte professionnelle Cotonou.</p>
+          <p><strong>LOCATAIRE :</strong> M. Caleb N., Ingénieur, titulaire du passeport locatif vérifié RentCV #IMMO-8291.</p>
+        </div>
+
+        <div class="section">
+          <div class="section-title">2. Objet et Consistance des Lieux</div>
+          <p>Location d'un appartement meublé/haut standing de type F3, situé au 2ème étage de la Résidence "Les Cocotiers", Haie Vive, Cotonou. Comprenant : 1 salon climatisé, 2 chambres avec placards, 2 salles d'eau, cuisine équipée et balcon sécurisé.</p>
+        </div>
+
+        <div class="section">
+          <div class="section-title">3. Durée, Loyer et Modalités PaySafe™</div>
+          <p>Le présent bail est consenti pour une durée de <strong>12 mois</strong> renouvelable par tacite reconduction.</p>
+          <p>Le loyer mensuel est fixé à <strong>250 000 FCFA</strong>, payable par prélèvements sécurisés Mobile Money (Wave / MTN MoMo / Orange) via PaySafe™ avant le 5 de chaque mois.</p>
+        </div>
+
+        <div class="stamp-box">
+          <strong>Garantie PaySafe™ & Horodatage Certifié :</strong><br/>
+          Les paiements sont tracés et protégés par le compte séquestre certifié IMMO Africa. En cas de défaillance, le fonds de garantie garantit jusqu'à 3 mois de loyer au bailleur.
+        </div>
+
+        <div class="signatures">
+          <div class="sig-block">
+            <strong>Le Bailleur</strong><br/>
+            <em>Agence Prestige Immobilier</em><br/>
+            <span style="font-size: 11px; color: #137333;">✓ Signé numériquement</span>
+          </div>
+          <div class="sig-block">
+            <strong>Le Locataire</strong><br/>
+            <em>M. Caleb N.</em><br/>
+            <span style="font-size: 11px; color: #137333;">✓ Certifié par RentCV (#IMMO-8291)</span>
+          </div>
+        </div>
+        <script>
+          window.onload = function() {
+            window.print();
+          };
+        </script>
+      </body>
+      </html>
+    `;
+
+    printWindow.document.open();
+    printWindow.document.write(htmlContent);
+    printWindow.document.close();
+  };
+
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       <div 
@@ -177,8 +261,11 @@ export const ContractModal: React.FC<ContractModalProps> = ({ isOpen, onClose })
                        </div>
 
                        <div className="space-y-2">
-                           <button className="w-full py-2 border border-gray-300 rounded-full font-semibold text-sm hover:bg-gray-50 flex items-center justify-center gap-2">
-                              <Download className="w-4 h-4" /> Télécharger PDF
+                           <button 
+                             onClick={handleDownloadPdf}
+                             className="w-full py-2 bg-linkedin-blue text-white rounded-full font-semibold text-sm hover:bg-blue-700 flex items-center justify-center gap-2 shadow-sm transition-all"
+                           >
+                              <Download className="w-4 h-4" /> Télécharger / Imprimer PDF Certifié
                            </button>
                            <button onClick={onClose} className="w-full py-2 bg-gray-100 text-gray-700 rounded-full font-semibold text-sm hover:bg-gray-200">
                               Fermer
