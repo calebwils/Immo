@@ -1,18 +1,53 @@
 
 import React, { useState } from 'react';
-import { X, MapPin, Check, ShieldCheck, Share2, Heart, MessageSquare, TrendingUp, Users, Banknote, Calendar, Building2, Phone, UserCheck, CheckCircle2, ChevronRight, Layers } from 'lucide-react';
-import { PostData } from '../types';
+import { X, MapPin, Check, ShieldCheck, Share2, Heart, MessageSquare, TrendingUp, Users, Banknote, Calendar, Building2, Phone, UserCheck, CheckCircle2, ChevronRight, Layers, Send, ThumbsUp } from 'lucide-react';
+import { PostData, PostComment } from '../types';
 
 interface ListingDetailModalProps {
   listing: PostData | null;
   onClose: () => void;
+  userAvatar?: string;
+  userName?: string;
+  onAddComment?: (postId: string, comment: PostComment) => void;
 }
 
-export const ListingDetailModal: React.FC<ListingDetailModalProps> = ({ listing, onClose }) => {
+const DEFAULT_AVATAR = 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80';
+
+export const ListingDetailModal: React.FC<ListingDetailModalProps> = ({ 
+  listing, 
+  onClose,
+  userAvatar = DEFAULT_AVATAR,
+  userName = 'Caleb N.',
+  onAddComment
+}) => {
   if (!listing) return null;
 
   const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
   const [copiedLink, setCopiedLink] = useState(false);
+  const [modalCommentText, setModalCommentText] = useState('');
+  const [modalComments, setModalComments] = useState<PostComment[]>(() => {
+    if (listing.commentsList && listing.commentsList.length > 0) {
+      return listing.commentsList;
+    }
+    return [
+      {
+        id: `c-1-${listing.id}`,
+        authorName: 'Sébastien Houngbédji',
+        authorAvatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+        content: 'Le bien est-il toujours disponible pour une visite ce week-end ?',
+        timestamp: 'Il y a 2h',
+        likes: 2
+      },
+      {
+        id: `c-2-${listing.id}`,
+        authorName: 'Mariam Ouattara',
+        authorAvatar: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+        content: 'Les charges de copropriété et gardiennage sont-elles incluses ?',
+        timestamp: 'Il y a 5h',
+        likes: 1
+      }
+    ].slice(0, Math.min(listing.comments || 1, 2));
+  });
 
   const isInvestment = listing.listingType === 'INVESTMENT';
   const isSale = listing.listingType === 'SALE';
@@ -24,6 +59,27 @@ export const ListingDetailModal: React.FC<ListingDetailModalProps> = ({ listing,
   const currentImage = imagesList[activeImageIndex] || listing.imageUrl || '';
 
   const cleanPhone = (listing.author.whatsapp || listing.author.phone || '').replace(/[^0-9]/g, '');
+
+  const handleModalCommentSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!modalCommentText.trim()) return;
+
+    const newComment: PostComment = {
+      id: `comment-modal-${Date.now()}`,
+      authorName: userName || 'Caleb N.',
+      authorAvatar: userAvatar || DEFAULT_AVATAR,
+      content: modalCommentText.trim(),
+      timestamp: "À l'instant",
+      likes: 0
+    };
+
+    setModalComments(prev => [newComment, ...prev]);
+    setModalCommentText('');
+
+    if (onAddComment) {
+      onAddComment(listing.id, newComment);
+    }
+  };
 
   const handleShare = () => {
     if (navigator.share) {
@@ -258,6 +314,57 @@ export const ListingDetailModal: React.FC<ListingDetailModalProps> = ({ listing,
                 </h3>
                 <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-line bg-gray-50 p-4 rounded-xl border border-gray-200">
                   {listing.description || listing.content}
+                </div>
+              </div>
+
+              {/* Questions & Comments Section */}
+              <div className="pt-3 border-t border-slate-100 space-y-3">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                    <MessageSquare className="w-3.5 h-3.5 text-slate-600" />
+                    <span>Questions & Échanges ({modalComments.length})</span>
+                  </h3>
+                  <span className="text-[11px] text-slate-400 font-medium">Interactions directes</span>
+                </div>
+
+                {/* Comment Input */}
+                <form onSubmit={handleModalCommentSubmit} className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 border border-slate-200 shadow-2xs">
+                    <img src={userAvatar || DEFAULT_AVATAR} alt={userName} className="w-full h-full object-cover" />
+                  </div>
+                  <div className="flex-1 relative">
+                    <input
+                      type="text"
+                      value={modalCommentText}
+                      onChange={(e) => setModalCommentText(e.target.value)}
+                      placeholder="Poser une question ou demander des précisions..."
+                      className="w-full text-xs bg-slate-50 focus:bg-white border border-slate-200 rounded-xl pl-3 pr-9 py-2 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-500 transition-all"
+                    />
+                    <button
+                      type="submit"
+                      disabled={!modalCommentText.trim()}
+                      className="absolute right-1.5 top-1/2 -translate-y-1/2 p-1.5 bg-slate-900 hover:bg-black disabled:opacity-30 disabled:hover:bg-slate-900 text-white rounded-lg transition-all"
+                      title="Envoyer"
+                    >
+                      <Send className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </form>
+
+                {/* Comments List */}
+                <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
+                  {modalComments.map((comment) => (
+                    <div key={comment.id} className="p-3 bg-slate-50 rounded-xl border border-slate-100 text-xs">
+                      <div className="flex items-center justify-between gap-1 mb-1">
+                        <div className="flex items-center gap-2">
+                          <img src={comment.authorAvatar || DEFAULT_AVATAR} alt={comment.authorName} className="w-6 h-6 rounded-full object-cover border border-slate-200" />
+                          <span className="font-bold text-slate-900">{comment.authorName}</span>
+                        </div>
+                        <span className="text-[10px] text-slate-400">{comment.timestamp}</span>
+                      </div>
+                      <p className="text-slate-700 pl-8 leading-relaxed">{comment.content}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
 

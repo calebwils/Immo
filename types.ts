@@ -27,6 +27,15 @@ export type ListingType = 'RENTAL' | 'SALE' | 'INVESTMENT' | 'SERVICE' | 'NEWS';
 
 export type PropertyCategory = 'APPARTEMENT' | 'VILLA' | 'DUPLEX' | 'MAISON' | 'STUDIO' | 'TERRAIN' | 'IMMEUBLE' | 'BUREAU';
 
+export interface PostComment {
+  id: string;
+  authorName: string;
+  authorAvatar?: string;
+  content: string;
+  timestamp: string;
+  likes?: number;
+}
+
 export interface PostData {
   id: string;
   author: User;
@@ -52,10 +61,12 @@ export interface PostData {
   legalTitle?: 'Titre Foncier' | 'ACD' | 'Convention de vente' | 'Permis d\'habiter';
   availability?: string; // e.g. "Immédiate", "Sous 15 jours"
   
-  // Details for Modal
+  // Details for Modal & Comments
   description?: string;
   amenities?: string[];
   images?: string[]; // Multi-photo Gallery
+  commentsList?: PostComment[];
+
   
   // Investment specific
   fundingProgress?: number; // 0 to 100

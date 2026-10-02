@@ -15,7 +15,7 @@ import { AiAssistant } from './components/AiAssistant';
 import { NotificationsPanel } from './components/NotificationsPanel';
 import { ClientSearchesModal } from './components/ClientSearchesModal';
 import { MobileBottomNav } from './components/MobileBottomNav';
-import { PostData, ListingType, PropertySearch } from './types';
+import { PostData, ListingType, PropertySearch, PostComment } from './types';
 import { MOCK_PROPERTIES } from './data/mockDb';
 
 const App: React.FC = () => {
@@ -114,6 +114,34 @@ const App: React.FC = () => {
     setTimeout(() => setPublishedToast(null), 4000);
   };
 
+  const handleAddComment = (postId: string, comment: PostComment) => {
+    setPosts(prev =>
+      prev.map(p => {
+        if (p.id === postId) {
+          const currentList = p.commentsList || [];
+          return {
+            ...p,
+            comments: (p.comments || 0) + 1,
+            commentsList: [comment, ...currentList]
+          };
+        }
+        return p;
+      })
+    );
+
+    if (selectedListing && selectedListing.id === postId) {
+      setSelectedListing(prev => {
+        if (!prev) return null;
+        const currentList = prev.commentsList || [];
+        return {
+          ...prev,
+          comments: (prev.comments || 0) + 1,
+          commentsList: [comment, ...currentList]
+        };
+      });
+    }
+  };
+
   const handleSelectSearchMatch = (search: PropertySearch) => {
     setFeedFilter(search.transactionType);
     setSelectedCity(search.city.toUpperCase());
@@ -194,6 +222,8 @@ const App: React.FC = () => {
                 cityFilter={selectedCity}
                 searchQuery={searchQuery}
                 userAvatar={userAvatar}
+                userName={userName}
+                onAddComment={handleAddComment}
               />
             </div>
 
@@ -230,7 +260,13 @@ const App: React.FC = () => {
         onUpdateName={handleUpdateName}
       />
       <ContractModal isOpen={isContractOpen} onClose={() => setIsContractOpen(false)} />
-      <ListingDetailModal listing={selectedListing} onClose={() => setSelectedListing(null)} />
+      <ListingDetailModal 
+        listing={selectedListing} 
+        onClose={() => setSelectedListing(null)} 
+        userAvatar={userAvatar}
+        userName={userName}
+        onAddComment={handleAddComment}
+      />
       <CreateListingModal
         isOpen={isCreateListingOpen}
         onClose={() => setIsCreateListingOpen(false)}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Plus, Sparkles, ShieldCheck, Banknote, FileCheck, Check, Filter } from 'lucide-react';
 import { Post } from './Post';
-import { PostData, ListingType } from '../types';
+import { PostData, ListingType, PostComment } from '../types';
 
 interface FeedProps {
   posts: PostData[];
@@ -11,6 +11,8 @@ interface FeedProps {
   cityFilter?: string;
   searchQuery?: string;
   userAvatar?: string;
+  userName?: string;
+  onAddComment?: (postId: string, comment: PostComment) => void;
 }
 
 const SMART_FILTERS = [
@@ -27,7 +29,9 @@ export const Feed: React.FC<FeedProps> = ({
   filter = 'ALL',
   cityFilter = 'ALL',
   searchQuery = '',
-  userAvatar
+  userAvatar,
+  userName,
+  onAddComment
 }) => {
   const [activeSmartFilter, setActiveSmartFilter] = useState<string | null>(null);
 
@@ -186,9 +190,17 @@ export const Feed: React.FC<FeedProps> = ({
         </div>
       ) : (
         filteredPosts.map(post => (
-          <Post key={post.id} post={post} onClick={() => onPostClick && onPostClick(post)} />
+          <Post 
+            key={post.id} 
+            post={post} 
+            onClick={() => onPostClick && onPostClick(post)} 
+            userAvatar={userAvatar}
+            userName={userName}
+            onAddComment={onAddComment}
+          />
         ))
       )}
     </div>
   );
 };
+
