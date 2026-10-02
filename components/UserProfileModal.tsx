@@ -128,19 +128,19 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
             </div>
 
             {/* Avatar & Main Identity Info */}
-            <div className="px-6 pb-2">
-              <div className="relative -mt-12 flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-3">
+            <div className="px-4 sm:px-6 pb-2">
+              <div className="relative -mt-10 sm:-mt-12 flex items-end justify-between gap-3 mb-3">
                 {/* Avatar with Camera Trigger */}
-                <div className="flex items-end gap-3">
+                <div className="flex items-end gap-3 min-w-0">
                   <div 
                     onClick={() => setShowPhotoSelector(!showPhotoSelector)}
-                    className="relative group cursor-pointer w-22 h-22 sm:w-24 sm:h-24 rounded-2xl overflow-hidden ring-4 ring-white shadow-xl bg-slate-100 flex-shrink-0"
+                    className="relative group cursor-pointer w-20 h-20 sm:w-24 sm:h-24 aspect-square rounded-2xl overflow-hidden ring-4 ring-white shadow-xl bg-slate-100 flex-shrink-0"
                     title="Cliquer pour changer la photo"
                   >
                     <img
                       src={currentAvatar}
                       alt="Photo de profil"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                      className="w-full h-full object-cover aspect-square block group-hover:scale-105 transition-transform"
                     />
                     <div className="absolute inset-0 bg-black/45 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-white">
                       <Camera className="w-5 h-5 mb-0.5" />
@@ -153,33 +153,36 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
                     <button
                       type="button"
                       onClick={() => setShowPhotoSelector(!showPhotoSelector)}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold border border-slate-200 shadow-2xs transition-all active:scale-95"
+                      className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold border border-slate-200 shadow-2xs transition-all active:scale-95"
                     >
                       <Camera className="w-3.5 h-3.5 text-slate-600" />
-                      <span>Changer la photo</span>
+                      <span>{showPhotoSelector ? 'Fermer' : 'Changer photo'}</span>
                     </button>
                   </div>
                 </div>
 
                 {/* Edit details button */}
-                <div className="pb-1">
+                <div className="pb-1 flex-shrink-0">
                   <button
                     type="button"
                     onClick={() => setIsEditing(!isEditing)}
-                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-semibold transition-colors"
+                    className="inline-flex items-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-semibold transition-colors"
                   >
                     <Edit2 className="w-3.5 h-3.5" />
-                    <span>{isEditing ? 'Fermer l\'édition' : 'Modifier les infos'}</span>
+                    <span className="hidden sm:inline">{isEditing ? 'Fermer' : 'Modifier infos'}</span>
+                    <span className="sm:hidden">{isEditing ? 'Fermer' : 'Éditer'}</span>
                   </button>
                 </div>
               </div>
 
               {/* Name & Subtitle */}
               <div>
-                <h3 className="text-xl font-bold text-slate-900 tracking-tight">{currentName}</h3>
-                <p className="text-xs text-slate-500 flex items-center gap-1 mt-0.5">
-                  <MapPin className="w-3.5 h-3.5 text-slate-400" />
-                  <span>{userCity}</span>
+                <h3 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight truncate">{currentName}</h3>
+                <p className="text-xs text-slate-500 flex items-center gap-1 mt-0.5 flex-wrap">
+                  <span className="flex items-center gap-1">
+                    <MapPin className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
+                    {userCity}
+                  </span>
                   <span>•</span>
                   <span className="text-slate-600 font-medium">Bailleur & Particulier</span>
                 </p>
@@ -189,13 +192,16 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
 
           {/* Photo Selector Drawer (when opened) */}
           {showPhotoSelector && (
-            <div className="mx-6 my-3 p-4 bg-slate-50 rounded-2xl border border-slate-200 animate-in fade-in space-y-3">
+            <div className="mx-4 sm:mx-6 my-2 sm:my-3 p-3.5 sm:p-4 bg-slate-50 rounded-2xl border border-slate-200 animate-in fade-in space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-900">Mettre à jour la photo de profil</span>
+                <span className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                  <Camera className="w-3.5 h-3.5 text-slate-700" />
+                  Mettre à jour ma photo
+                </span>
                 <button
                   type="button"
                   onClick={() => setShowPhotoSelector(false)}
-                  className="text-xs text-slate-400 hover:text-slate-700 font-semibold"
+                  className="text-xs text-slate-400 hover:text-slate-700 font-semibold p-1"
                 >
                   ✕
                 </button>
@@ -217,8 +223,29 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
                 className="w-full py-2.5 px-4 bg-slate-900 hover:bg-black text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-xs active:scale-[0.99]"
               >
                 <Upload className="w-4 h-4" />
-                <span>Importer une photo depuis cet appareil</span>
+                <span>Prendre ou importer une photo</span>
               </button>
+
+              {/* Presets */}
+              <div>
+                <span className="block text-[11px] font-semibold text-slate-500 mb-1.5">
+                  Ou choisir parmi les portraits types :
+                </span>
+                <div className="grid grid-cols-4 gap-2">
+                  {AVATAR_PRESETS.map((p, idx) => (
+                    <div
+                      key={idx}
+                      onClick={() => handleApplyAvatar(p.url)}
+                      className={`aspect-square w-full rounded-xl overflow-hidden border-2 cursor-pointer transition-all active:scale-95 flex items-center justify-center ${
+                        currentAvatar === p.url ? 'border-slate-900 ring-2 ring-slate-900/20' : 'border-slate-200 hover:border-slate-400'
+                      }`}
+                      title={p.name}
+                    >
+                      <img src={p.url} alt={p.name} className="w-full h-full object-cover block" />
+                    </div>
+                  ))}
+                </div>
+              </div>
 
               {/* Or enter URL */}
               <div>
@@ -228,10 +255,10 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
                 <div className="flex gap-2">
                   <input
                     type="url"
-                    placeholder="https://images.unsplash.com/..."
+                    placeholder="https://..."
                     value={customPhotoUrl}
                     onChange={(e) => setCustomPhotoUrl(e.target.value)}
-                    className="flex-1 border border-slate-300 rounded-xl px-3 py-1.5 text-xs bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-500"
+                    className="flex-1 min-w-0 border border-slate-300 rounded-xl px-3 py-1.5 text-xs bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-500"
                   />
                   <button
                     type="button"
@@ -242,31 +269,10 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
                       }
                     }}
                     disabled={!customPhotoUrl.trim()}
-                    className="px-3.5 py-1.5 bg-slate-200 hover:bg-slate-300 disabled:opacity-40 text-slate-800 rounded-xl text-xs font-bold transition-colors"
+                    className="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 disabled:opacity-40 text-slate-800 rounded-xl text-xs font-bold transition-colors flex-shrink-0"
                   >
                     Valider
                   </button>
-                </div>
-              </div>
-
-              {/* Presets */}
-              <div>
-                <span className="block text-[11px] font-semibold text-slate-500 mb-1.5">
-                  Ou sélectionner un portrait type :
-                </span>
-                <div className="flex gap-2.5">
-                  {AVATAR_PRESETS.map((p, idx) => (
-                    <div
-                      key={idx}
-                      onClick={() => handleApplyAvatar(p.url)}
-                      className={`w-12 h-12 rounded-xl overflow-hidden border-2 cursor-pointer transition-all hover:scale-105 ${
-                        currentAvatar === p.url ? 'border-slate-900 ring-2 ring-slate-900/20' : 'border-slate-200'
-                      }`}
-                      title={p.name}
-                    >
-                      <img src={p.url} alt={p.name} className="w-full h-full object-cover" />
-                    </div>
-                  ))}
                 </div>
               </div>
             </div>
