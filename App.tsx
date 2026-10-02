@@ -248,7 +248,10 @@ const App: React.FC = () => {
         onOpenNotifications={() => setShowNotifications(true)}
       />
 
-      <AiAssistant />
+      <AiAssistant
+        listings={posts}
+        onSelectListing={(listing) => setSelectedListing(listing)}
+      />
       <MessagingWidget isOpen={isMessagingOpen} onToggle={() => setIsMessagingOpen(!isMessagingOpen)} />
       <WalletModal isOpen={isWalletOpen} onClose={() => setIsWalletOpen(false)} />
       <UserProfileModal
