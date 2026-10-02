@@ -50,10 +50,29 @@ const App: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [publishedToast, setPublishedToast] = useState<string | null>(null);
 
+  const [userAvatar, setUserAvatar] = useState<string>(() => {
+    return (
+      localStorage.getItem('immo_user_avatar') ||
+      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+    );
+  });
+  const [userName, setUserName] = useState<string>(() => {
+    return localStorage.getItem('immo_user_name') || 'Caleb N.';
+  });
+
+  const handleUpdateAvatar = (newAvatar: string) => {
+    setUserAvatar(newAvatar);
+    localStorage.setItem('immo_user_avatar', newAvatar);
+  };
+
+  const handleUpdateName = (newName: string) => {
+    setUserName(newName);
+    localStorage.setItem('immo_user_name', newName);
+  };
+
   useEffect(() => {
     localStorage.setItem('immo_posts', JSON.stringify(posts));
   }, [posts]);
-
 
   const toggleView = () => {
     setViewMode(prev => (prev === 'TENANT' ? 'AGENCY' : 'TENANT'));
@@ -64,9 +83,9 @@ const App: React.FC = () => {
     const fullPost: PostData = {
       id: newPostData.id || `post-${Date.now()}`,
       author: newPostData.author || {
-        name: 'Caleb N.',
+        name: userName,
         headline: 'Propriétaire • Membre Certifié',
-        avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+        avatarUrl: userAvatar,
         badge: 'Verified'
       },
       content: newPostData.content || '',
@@ -120,6 +139,7 @@ const App: React.FC = () => {
         onSelectCity={setSelectedCity}
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
+        userAvatar={userAvatar}
       />
 
       {/* Floating Published Notification Toast */}
@@ -159,6 +179,8 @@ const App: React.FC = () => {
                 onOpenCreatePost={() => setIsCreateListingOpen(true)}
                 onOpenServices={() => setIsServicesOpen(true)}
                 onOpenSearches={() => setIsSearchesOpen(true)}
+                userAvatar={userAvatar}
+                userName={userName}
               />
             </div>
 
@@ -171,6 +193,7 @@ const App: React.FC = () => {
                 filter={feedFilter}
                 cityFilter={selectedCity}
                 searchQuery={searchQuery}
+                userAvatar={userAvatar}
               />
             </div>
 
@@ -198,7 +221,14 @@ const App: React.FC = () => {
       <AiAssistant />
       <MessagingWidget isOpen={isMessagingOpen} onToggle={() => setIsMessagingOpen(!isMessagingOpen)} />
       <WalletModal isOpen={isWalletOpen} onClose={() => setIsWalletOpen(false)} />
-      <UserProfileModal isOpen={isProfileOpen} onClose={() => setIsProfileOpen(false)} />
+      <UserProfileModal
+        isOpen={isProfileOpen}
+        onClose={() => setIsProfileOpen(false)}
+        userAvatar={userAvatar}
+        onUpdateAvatar={handleUpdateAvatar}
+        userName={userName}
+        onUpdateName={handleUpdateName}
+      />
       <ContractModal isOpen={isContractOpen} onClose={() => setIsContractOpen(false)} />
       <ListingDetailModal listing={selectedListing} onClose={() => setSelectedListing(null)} />
       <CreateListingModal

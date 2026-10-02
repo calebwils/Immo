@@ -31,6 +31,7 @@ interface NavbarProps {
   onSelectCity?: (cityCode: string) => void;
   searchQuery?: string;
   onSearchChange?: (query: string) => void;
+  userAvatar?: string;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -47,7 +48,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   selectedCity = 'ALL',
   onSelectCity,
   searchQuery = '',
-  onSearchChange
+  onSearchChange,
+  userAvatar
 }) => {
   const [showCityMenu, setShowCityMenu] = useState(false);
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
@@ -277,7 +279,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             title="Mon Profil & RentScore"
           >
             <img
-              src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+              src={userAvatar || "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"}
               alt="Caleb N."
               className="w-full h-full object-cover"
             />

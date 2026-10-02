@@ -6,13 +6,17 @@ interface SidebarLeftProps {
   onOpenCreatePost?: () => void;
   onOpenServices?: () => void;
   onOpenSearches?: () => void;
+  userAvatar?: string;
+  userName?: string;
 }
 
 export const SidebarLeft: React.FC<SidebarLeftProps> = ({
   onOpenProfile,
   onOpenCreatePost,
   onOpenServices,
-  onOpenSearches
+  onOpenSearches,
+  userAvatar,
+  userName = 'Caleb N.'
 }) => {
   return (
     <div className="flex flex-col gap-3.5">
@@ -33,8 +37,8 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
               className="w-16 h-16 rounded-2xl border-2 border-white bg-slate-100 overflow-hidden cursor-pointer shadow-md hover:scale-105 transition-transform"
             >
               <img
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                alt="Caleb N."
+                src={userAvatar || "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"}
+                alt={userName}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -50,7 +54,7 @@ export const SidebarLeft: React.FC<SidebarLeftProps> = ({
               onClick={onOpenProfile}
               className="text-base font-bold text-slate-900 hover:text-slate-700 cursor-pointer"
             >
-              Caleb N.
+              {userName}
             </h2>
             <p className="text-xs text-slate-500 flex items-center gap-1 mt-0.5">
               <MapPin className="w-3.5 h-3.5 text-slate-400" /> Cotonou, Bénin • Particulier

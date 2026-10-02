@@ -3,17 +3,18 @@ import { Key, Tag, TrendingUp, Plus } from 'lucide-react';
 
 interface CreatePostProps {
   onOpen?: () => void;
+  userAvatar?: string;
 }
 
-export const CreatePost: React.FC<CreatePostProps> = ({ onOpen }) => {
+export const CreatePost: React.FC<CreatePostProps> = ({ onOpen, userAvatar }) => {
   return (
     <div className="bg-white rounded-2xl border border-slate-200/90 shadow-xs p-3.5 sm:p-4 mb-3">
       {/* Top row: Avatar + input button */}
       <div className="flex items-center gap-3">
         <div className="w-10 h-10 rounded-xl overflow-hidden flex-shrink-0 border border-slate-200">
           <img
-            src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-            alt="Caleb N."
+            src={userAvatar || "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"}
+            alt="Profil"
             className="w-full h-full object-cover"
           />
         </div>
