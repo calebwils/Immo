@@ -8,6 +8,16 @@ export default defineConfig(({ mode }) => {
       server: {
         port: 3000,
         host: '0.0.0.0',
+        proxy: {
+          '/api/qwen': {
+            target: 'https://ws-hrpprn3nx2citb4c.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1/chat/completions',
+            changeOrigin: true,
+            rewrite: () => '',
+            headers: {
+              'Authorization': `Bearer ${env.VITE_QWEN_API_KEY || 'sk-ws-H.DMYHEHM.uWeV.MEYCIQDIX8DbXSabp_OXZ90ELFKP5h22WbSMNf1yoHtWyk3C1QIhAOhK30EJNVo4DH0kIAbH9cBEDP0Y4iFIWLBaxFJS9e8g'}`
+            }
+          }
+        }
       },
       plugins: [react()],
       define: {
