@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { ThumbsUp, Share2, MapPin, Send, MoreHorizontal, ShieldCheck, Banknote, Sparkles, TrendingUp, Users, Link } from 'lucide-react';
+import { ThumbsUp, Share2, MapPin, Send, MoreHorizontal, ShieldCheck, Banknote, Sparkles, TrendingUp, Users } from 'lucide-react';
 import { PostData } from '../types';
 
 interface PostProps {
@@ -130,14 +130,14 @@ export const Post: React.FC<PostProps> = ({ post, onClick }) => {
         </div>
       )}
       
-      {/* Blockchain Verified Footer for Rentals */}
+      {/* Verified Footer for Rentals */}
       {post.listingType === 'RENTAL' && (
         <div className="mx-4 mt-2 px-3 py-1.5 bg-gray-50 rounded border border-gray-200 flex items-center justify-between">
            <div className="flex items-center gap-1.5 text-xs text-gray-600">
-             <Link className="w-3 h-3 text-gray-400" />
-             <span>Propriété certifiée Blockchain</span>
+             <ShieldCheck className="w-3.5 h-3.5 text-linkedin-blue" />
+             <span>Titre de propriété vérifié & certifié</span>
            </div>
-           <span className="text-[10px] text-gray-400 font-mono">HASH: 0x7F...3A2</span>
+           <span className="text-[10px] text-gray-500 font-mono">RÉF: IM-2025-BJ</span>
         </div>
       )}
 

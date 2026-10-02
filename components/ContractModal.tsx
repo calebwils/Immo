@@ -84,7 +84,7 @@ export const ContractModal: React.FC<ContractModalProps> = ({ isOpen, onClose })
                        <h3 className="font-bold uppercase text-xs text-gray-500 mb-2">4. Clause PaySafe & Garantie</h3>
                        <p className="bg-yellow-50 p-2 border border-yellow-100 rounded text-yellow-900 text-xs">
                           <ShieldCheck className="w-3 h-3 inline mr-1" />
-                          Le locataire accepte que les paiements soient tracés sur la Blockchain Immo. En cas de défaut, la garantie PaySafe™ s'active automatiquement pour le bailleur.
+                          Le locataire accepte que les paiements soient enregistrés sur la plateforme sécurisée Immo. En cas de défaut, la garantie PaySafe™ s'active automatiquement pour le bailleur.
                        </p>
                     </section>
                     
@@ -155,8 +155,8 @@ export const ContractModal: React.FC<ContractModalProps> = ({ isOpen, onClose })
                  {step === 'SIGNING' && (
                     <div className="flex flex-col items-center justify-center h-full space-y-4">
                        <div className="w-12 h-12 border-4 border-blue-200 border-t-linkedin-blue rounded-full animate-spin"></div>
-                       <p className="text-sm font-semibold text-gray-600">Inscription sur la Blockchain...</p>
-                       <p className="text-xs text-gray-400">Hashage du document en cours</p>
+                       <p className="text-sm font-semibold text-gray-600">Génération du contrat sécurisé...</p>
+                       <p className="text-xs text-gray-400">Signature électronique et horodatage certifié</p>
                     </div>
                  )}
 
@@ -171,8 +171,8 @@ export const ContractModal: React.FC<ContractModalProps> = ({ isOpen, onClose })
                        </div>
 
                        <div className="bg-gray-900 text-gray-300 p-4 rounded-lg font-mono text-xs break-all relative group cursor-pointer hover:bg-gray-800 transition-colors">
-                          <p className="text-gray-500 uppercase text-[10px] mb-1 font-sans font-bold">Transaction Hash (Polygon)</p>
-                          0x71C7656EC7ab88b098defB751B7401B5f6d8976F
+                          <p className="text-gray-500 uppercase text-[10px] mb-1 font-sans font-bold">Certificat Numérique d'Authenticité</p>
+                          CERT-BJ-2025-9821-E8A
                           <ExternalLink className="absolute top-2 right-2 w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                        </div>
 

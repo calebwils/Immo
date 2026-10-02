@@ -50,7 +50,7 @@ export const Feed: React.FC<FeedProps> = ({ onPostClick, onOpenCreatePost, filte
         avatarUrl: 'https://images.unsplash.com/photo-1554469384-e58fac16e23a?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&q=80',
         badge: 'Verified'
       },
-      content: '🚀 Opportunité d\'Investissement : Résidence Bord de Mer à Assinie.\n\nInvestissez dès 10 000 CFA et devenez copropriétaire de ce bien à haut rendement locatif Airbnb. \n\nDividendes versés trimestriellement via Mobile Money. Propriété certifiée Blockchain.',
+      content: '🚀 Opportunité d\'Investissement : Résidence Bord de Mer à Assinie.\n\nInvestissez dès 10 000 CFA et devenez copropriétaire de ce bien à haut rendement locatif Airbnb. \n\nDividendes versés trimestriellement via Mobile Money. Titre de propriété notarié et certifié conforme.',
       timestamp: '5h',
       likes: 845,
       comments: 120,

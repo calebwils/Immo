@@ -45,7 +45,7 @@ export const SidebarRight: React.FC<SidebarRightProps> = ({ onOpenServices }) =>
         </div>
         
         <div className="flex flex-col">
-           <NewsItem title="Titres fonciers sécurisés par Blockchain" subtitle="Il y a 2h • Innovation" index={1} />
+           <NewsItem title="Numérisation des titres fonciers et cadastre" subtitle="Il y a 2h • Innovation" index={1} />
            <NewsItem title="Nouvelle garantie 'PaySafe' pour proprios" subtitle="Il y a 10h • 5 212 intéressés" index={2} />
            <NewsItem title="Coût construction Cotonou: -5%" subtitle="Il y a 1j • Analyse Marché" index={3} />
            <NewsItem title="Top 10 Quartiers Rentables Abidjan" subtitle="Il y a 18h • Investissement" index={4} />
