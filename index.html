@@ -13,12 +13,38 @@
         theme: {
           extend: {
             colors: {
+              brand: {
+                50: '#f8fafc',
+                100: '#f1f5f9',
+                200: '#e2e8f0',
+                300: '#cbd5e1',
+                400: '#94a3b8',
+                500: '#64748b',
+                600: '#475569',
+                700: '#334155',
+                800: '#1e293b',
+                900: '#0f172a',
+                DEFAULT: '#0f172a',
+              },
+              amber: {
+                50: '#fffbeb',
+                100: '#fef3c7',
+                200: '#fde68a',
+                500: '#f59e0b',
+                600: '#d97706',
+                700: '#b45309',
+              },
+              surface: {
+                bg: '#f8fafc',
+                card: '#ffffff',
+                border: '#e2e8f0',
+              },
               linkedin: {
-                bg: '#f3f2ef',
-                blue: '#0a66c2',
-                dark: '#191919',
-                gray: '#666666',
-                hover: '#f3f2ef',
+                bg: '#f8fafc',
+                blue: '#0f172a',
+                dark: '#0f172a',
+                gray: '#64748b',
+                hover: '#f1f5f9',
               }
             },
             fontFamily: {
@@ -31,32 +57,42 @@
     <style>
       /* Custom scrollbar for a cleaner look */
       ::-webkit-scrollbar {
-        width: 8px;
+        width: 6px;
+        height: 6px;
       }
       ::-webkit-scrollbar-track {
-        background: #f1f1f1; 
+        background: #f8fafc; 
       }
       ::-webkit-scrollbar-thumb {
-        background: #888; 
-        border-radius: 4px;
+        background: #cbd5e1; 
+        border-radius: 9999px;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #555; 
+        background: #94a3b8; 
       }
       body {
-        background-color: #f3f2ef;
+        background-color: #f8fafc;
+        color: #0f172a;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
       }
       .animate-in {
-        animation: animateIn 0.2s ease-out;
+        animation: animateIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       }
       @keyframes animateIn {
         from {
           opacity: 0;
-          transform: scale(0.95);
+          transform: scale(0.97) translateY(4px);
         }
         to {
           opacity: 1;
-          transform: scale(1);
+          transform: scale(1) translateY(0);
         }
       }
     </style>

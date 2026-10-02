@@ -13,135 +13,26 @@ import { ContractModal } from './components/ContractModal';
 import { ServicesModal } from './components/ServicesModal';
 import { AiAssistant } from './components/AiAssistant';
 import { NotificationsPanel } from './components/NotificationsPanel';
-import { PostData, ListingType } from './types';
-
-const INITIAL_POSTS: PostData[] = [
-  {
-    id: '1',
-    author: {
-      name: 'Prestige Immobilier',
-      headline: 'Agence Premium à Cotonou • Partenaire Vérifié',
-      avatarUrl: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&q=80',
-      badge: 'Pro'
-    },
-    content: '🏡 À LOUER : Appartement moderne 3 pièces à Haie Vive, Cotonou.\n\nCaractéristiques :\n- Sécurité 24/7\n- Groupe Électrogène\n- Fibre Optique\n- Paiement flexible via Wave & Mobile Money accepté.\n\nContactez-nous directement pour organiser une visite.',
-    timestamp: '2h',
-    likes: 45,
-    comments: 12,
-    reposts: 5,
-    imageUrl: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-    listingType: 'RENTAL',
-    price: '250 000 CFA/mois',
-    location: 'Haie Vive, Cotonou',
-    specs: '3 Chambres • 2 Douches',
-    description: "Situé au cœur du quartier résidentiel de Haie Vive à Cotonou, cet appartement offre un cadre de vie calme et sécurisé.\n\nLa résidence dispose d'un gardiennage 24h/24, parking intérieur et groupe électrogène. Idéal pour cadres et familles.\n\nPaiements sécurisés via Wave et Mobile Money (garantie PaySafe™ incluse).",
-    amenities: ['Climatisation', 'Piscine', 'Groupe Électrogène', 'Sécurité 24/7', 'Internet Fibre', 'Parking'],
-    images: [
-      'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
-    ],
-    isAiRecommended: true,
-    matchScore: 94,
-    matchReason: 'Correspond à vos critères de recherche récents'
-  },
-  {
-    id: 'sale-1',
-    author: {
-      name: 'Kouamé & Associés',
-      headline: 'Agence Immobilière Agréée • Abidjan',
-      avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      badge: 'Agent'
-    },
-    content: '🏷️ À VENDRE : Villa Duplex Moderne 5 Pièces à Cocody Riviera Palmeraie.\n\nCaractéristiques :\n- 4 Chambres autonomes + Dépendance\n- Grand salon lumineux avec baie vitrée\n- Cour avant & Garage 2 véhicules\n- Titre Foncier (ACD) disponible et vérifié.\n\nContactez-nous directement pour visiter ce bien.',
-    timestamp: '3h',
-    likes: 67,
-    comments: 18,
-    reposts: 12,
-    imageUrl: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-    listingType: 'SALE',
-    price: '95 000 000 CFA',
-    location: "Cocody Riviera, Abidjan",
-    specs: '5 Pièces • 4 Douches • ACD',
-    description: "Superbe villa duplex dans une cité fermée et sécurisée à Cocody Riviera Palmeraie. Finitions haut de gamme, cuisine aménagée, titre foncier définitif (ACD) en règle. Visite sur rendez-vous.",
-    amenities: ['Climatisation', 'Garage', 'Sécurité 24/7', 'Forage Eau', 'Balcon', 'Jardin'],
-    images: [
-      'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
-    ],
-    isAiRecommended: true,
-    matchScore: 96,
-    matchReason: 'Titre Foncier ACD vérifié'
-  },
-  {
-    id: '2',
-    author: {
-      name: 'ImmoInvest Africa',
-      headline: 'Plateforme d\'Investissement Fractionné • Assinie',
-      avatarUrl: 'https://images.unsplash.com/photo-1554469384-e58fac16e23a?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&q=80',
-      badge: 'Verified'
-    },
-    content: "🚀 Opportunité d'Investissement : Résidence Bord de Mer à Assinie.\n\nInvestissez dès 10 000 CFA et devenez copropriétaire de ce bien à haut rendement locatif Airbnb.\n\nDividendes versés trimestriellement via Wave / Mobile Money. Titre de propriété notarié et certifié conforme.",
-    timestamp: '5h',
-    likes: 845,
-    comments: 120,
-    reposts: 220,
-    imageUrl: 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-    listingType: 'INVESTMENT',
-    price: 'Min: 10 000 CFA',
-    location: "Assinie, Côte d'Ivoire",
-    specs: '12% Rendement Est.',
-    description: "Possédez un coin de paradis. Le projet 'Assinie Beachfront' permet la propriété fractionnée d'un complexe de 5 villas de luxe.\n\nExploité en Airbnb Premium avec 80% d'occupation prévue. Dividendes distribués automatiquement sur votre Wallet Immo.",
-    images: [
-      'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1572331165267-854da2dc72af?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
-    ],
-    fundingProgress: 75,
-    targetAmount: '50 000 000 CFA',
-    investorsCount: 342,
-    minInvestment: '10 000 CFA',
-    projectedYield: '12-15% AN',
-    roi: '15% sur 2 ans'
-  },
-  {
-    id: '3',
-    author: {
-      name: 'Jean-Marc D.',
-      headline: 'Plombier Certifié UEMOA',
-      avatarUrl: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&q=80'
-    },
-    content: "Disponible pour dépannages d'urgence ce week-end à Calavi et Cotonou.\n\nVérifié par la plateforme Immo. Réservez-moi via l'onglet \"Artisan\" pour un prix fixe et un paiement séquestré PaySafe.",
-    timestamp: '1j',
-    likes: 21,
-    comments: 4,
-    reposts: 2,
-    listingType: 'SERVICE',
-    price: 'Tarifs Standards',
-    location: 'Abomey-Calavi, Bénin'
-  },
-  {
-    id: '4',
-    author: {
-      name: 'Immo News Bot',
-      headline: 'Analyse Marché IA (Qwen)',
-      avatarUrl: 'https://images.unsplash.com/photo-1531746790731-6c087fecd65a?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&q=80',
-      badge: 'Verified'
-    },
-    content: '📉 Point Marché : Les loyers à Akpakpa et Cocody se stabilisent suite aux nouvelles régulations locatives.\n\nConsultez notre assistant Immo-AI pour trouver des offres au prix juste du marché.',
-    timestamp: '2j',
-    likes: 132,
-    comments: 9,
-    reposts: 10,
-    listingType: 'NEWS'
-  }
-];
+import { ClientSearchesModal } from './components/ClientSearchesModal';
+import { MobileBottomNav } from './components/MobileBottomNav';
+import { PostData, ListingType, PropertySearch } from './types';
+import { MOCK_PROPERTIES } from './data/mockDb';
 
 const App: React.FC = () => {
   const [posts, setPosts] = useState<PostData[]>(() => {
     const saved = localStorage.getItem('immo_posts');
-    return saved ? JSON.parse(saved) : INITIAL_POSTS;
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        // If saved cache has fewer properties than the new mock database (15 properties), hydrate with MOCK_PROPERTIES
+        if (Array.isArray(parsed) && parsed.length >= 15) {
+          return parsed;
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    return MOCK_PROPERTIES;
   });
 
   const [isWalletOpen, setIsWalletOpen] = useState(false);
@@ -149,6 +40,7 @@ const App: React.FC = () => {
   const [isContractOpen, setIsContractOpen] = useState(false);
   const [isCreateListingOpen, setIsCreateListingOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const [isSearchesOpen, setIsSearchesOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [isMessagingOpen, setIsMessagingOpen] = useState(false);
   const [viewMode, setViewMode] = useState<'TENANT' | 'AGENCY'>('TENANT');
@@ -161,6 +53,7 @@ const App: React.FC = () => {
   useEffect(() => {
     localStorage.setItem('immo_posts', JSON.stringify(posts));
   }, [posts]);
+
 
   const toggleView = () => {
     setViewMode(prev => (prev === 'TENANT' ? 'AGENCY' : 'TENANT'));
@@ -202,8 +95,16 @@ const App: React.FC = () => {
     setTimeout(() => setPublishedToast(null), 4000);
   };
 
+  const handleSelectSearchMatch = (search: PropertySearch) => {
+    setFeedFilter(search.transactionType);
+    setSelectedCity(search.city.toUpperCase());
+    setSearchQuery('');
+    setPublishedToast(`Filtre activé : ${search.transactionType === 'SALE' ? 'Achats' : 'Locations'} à ${search.city}`);
+    setTimeout(() => setPublishedToast(null), 4000);
+  };
+
   return (
-    <div className="min-h-screen bg-[#f3f2ef] font-sans pb-10 relative">
+    <div className="min-h-screen bg-[#f8fafc] font-sans pb-20 md:pb-12 text-slate-900 relative selection:bg-slate-200 selection:text-slate-900">
       <Navbar
         onOpenWallet={() => setIsWalletOpen(true)}
         onToggleView={toggleView}
@@ -223,7 +124,7 @@ const App: React.FC = () => {
 
       {/* Floating Published Notification Toast */}
       {publishedToast && (
-        <div className="fixed top-16 right-6 z-[120] bg-green-700 text-white px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-2 text-xs sm:text-sm font-semibold animate-in slide-in-from-top-4">
+        <div className="fixed top-16 right-6 z-[120] bg-slate-900 text-white px-4 py-2.5 rounded-2xl shadow-xl border border-slate-800 flex items-center gap-2 text-xs sm:text-sm font-bold animate-in slide-in-from-top-4">
           <span>✓</span>
           <span>{publishedToast}</span>
         </div>
@@ -244,24 +145,25 @@ const App: React.FC = () => {
       />
 
       <main
-        className="max-w-[1128px] mx-auto pt-6 px-0 sm:px-4 md:px-0"
+        className="max-w-[1180px] mx-auto pt-4 sm:pt-6 px-3 sm:px-4"
         onClick={() => showNotifications && setShowNotifications(false)}
       >
         {viewMode === 'AGENCY' ? (
           <LandlordDashboard />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-5 lg:gap-6">
             {/* Left Sidebar */}
-            <div className="hidden md:block md:col-span-3 lg:col-span-3">
+            <div className="hidden md:block md:col-span-4 lg:col-span-3">
               <SidebarLeft
                 onOpenProfile={() => setIsProfileOpen(true)}
                 onOpenCreatePost={() => setIsCreateListingOpen(true)}
                 onOpenServices={() => setIsServicesOpen(true)}
+                onOpenSearches={() => setIsSearchesOpen(true)}
               />
             </div>
 
             {/* Main Feed */}
-            <div className="col-span-1 md:col-span-9 lg:col-span-6">
+            <div className="col-span-1 md:col-span-8 lg:col-span-6">
               <Feed
                 posts={posts}
                 onPostClick={setSelectedListing}
@@ -274,11 +176,24 @@ const App: React.FC = () => {
 
             {/* Right Sidebar */}
             <div className="hidden lg:block lg:col-span-3">
-              <SidebarRight onOpenServices={() => setIsServicesOpen(true)} />
+              <SidebarRight 
+                onOpenServices={() => setIsServicesOpen(true)} 
+                onOpenSearches={() => setIsSearchesOpen(true)}
+              />
             </div>
           </div>
         )}
       </main>
+
+      {/* Mobile Bottom Navigation Bar */}
+      <MobileBottomNav
+        currentFilter={feedFilter}
+        onFilterChange={setFeedFilter}
+        onOpenCreatePost={() => setIsCreateListingOpen(true)}
+        onOpenWallet={() => setIsWalletOpen(true)}
+        onOpenProfile={() => setIsProfileOpen(true)}
+        onOpenNotifications={() => setShowNotifications(true)}
+      />
 
       <AiAssistant />
       <MessagingWidget isOpen={isMessagingOpen} onToggle={() => setIsMessagingOpen(!isMessagingOpen)} />
@@ -290,6 +205,11 @@ const App: React.FC = () => {
         isOpen={isCreateListingOpen}
         onClose={() => setIsCreateListingOpen(false)}
         onSubmit={handleAddPost}
+      />
+      <ClientSearchesModal
+        isOpen={isSearchesOpen}
+        onClose={() => setIsSearchesOpen(false)}
+        onSelectSearchMatch={handleSelectSearchMatch}
       />
       <ServicesModal isOpen={isServicesOpen} onClose={() => setIsServicesOpen(false)} />
     </div>

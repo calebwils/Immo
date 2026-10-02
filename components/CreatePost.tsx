@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { Home, Hammer, FileText, Image } from 'lucide-react';
+import { Key, Tag, TrendingUp, Plus } from 'lucide-react';
 
 interface CreatePostProps {
   onOpen?: () => void;
@@ -8,34 +7,56 @@ interface CreatePostProps {
 
 export const CreatePost: React.FC<CreatePostProps> = ({ onOpen }) => {
   return (
-    <div className="bg-white rounded-lg border border-gray-300 shadow-sm p-4 mb-2">
-      <div className="flex gap-3 mb-2">
-         <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 cursor-pointer">
-            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="Profile" className="w-full h-full object-cover" />
-         </div>
-         <div className="flex-grow">
-            <button 
-              onClick={onOpen}
-              className="w-full h-12 text-left px-4 rounded-full border border-gray-400 font-semibold text-gray-500 hover:bg-gray-100 transition-colors"
-            >
-               Publier un bien ou une demande...
-            </button>
-         </div>
+    <div className="bg-white rounded-2xl border border-slate-200/90 shadow-xs p-3.5 sm:p-4 mb-3">
+      {/* Top row: Avatar + input button */}
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-xl overflow-hidden flex-shrink-0 border border-slate-200">
+          <img
+            src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+            alt="Caleb N."
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <button
+          type="button"
+          onClick={onOpen}
+          className="flex-grow text-left px-4 py-2.5 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-200 text-xs sm:text-sm font-medium text-slate-500 hover:text-slate-700 transition-all flex items-center justify-between group"
+        >
+          <span>Publier un bien ou déposer une demande...</span>
+          <span className="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center group-hover:scale-105 transition-transform flex-shrink-0">
+            <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
+          </span>
+        </button>
       </div>
-      
-      <div className="flex justify-between items-center pt-2">
-         <button onClick={onOpen} className="flex items-center gap-3 px-2 py-3 hover:bg-gray-100 rounded-md transition-colors flex-1 justify-center">
-            <Home className="w-5 h-5 text-blue-500" />
-            <span className="text-sm font-semibold text-gray-600">Immobilier</span>
-         </button>
-         <button onClick={onOpen} className="flex items-center gap-3 px-2 py-3 hover:bg-gray-100 rounded-md transition-colors flex-1 justify-center">
-            <Hammer className="w-5 h-5 text-yellow-600" />
-            <span className="text-sm font-semibold text-gray-600">Artisan</span>
-         </button>
-         <button onClick={onOpen} className="flex items-center gap-3 px-2 py-3 hover:bg-gray-100 rounded-md transition-colors flex-1 justify-center">
-            <FileText className="w-5 h-5 text-green-500" />
-            <span className="text-sm font-semibold text-gray-600">Contrat</span>
-         </button>
+
+      {/* Quick category chips - Executive Neutrals */}
+      <div className="grid grid-cols-3 gap-2 mt-3 pt-3 border-t border-slate-100">
+        <button
+          type="button"
+          onClick={onOpen}
+          className="flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-xl hover:bg-slate-100 text-slate-700 hover:text-slate-900 transition-colors text-xs font-semibold"
+        >
+          <Key className="w-4 h-4 text-slate-500" />
+          <span>Location</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={onOpen}
+          className="flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-xl hover:bg-slate-100 text-slate-700 hover:text-slate-900 transition-colors text-xs font-semibold"
+        >
+          <Tag className="w-4 h-4 text-slate-500" />
+          <span>Vente</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={onOpen}
+          className="flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-xl hover:bg-slate-100 text-slate-700 hover:text-slate-900 transition-colors text-xs font-semibold"
+        >
+          <TrendingUp className="w-4 h-4 text-slate-500" />
+          <span>Investir</span>
+        </button>
       </div>
     </div>
   );
