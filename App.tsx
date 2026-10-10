@@ -193,11 +193,23 @@ const App: React.FC = () => {
       />
 
       <main
-        className="max-w-[1180px] mx-auto pt-4 sm:pt-6 px-3 sm:px-4"
+        className={
+          viewMode === 'AGENCY'
+            ? 'max-w-[1560px] mx-auto pt-3 sm:pt-5 px-2 sm:px-4 lg:px-6'
+            : 'max-w-[1180px] mx-auto pt-4 sm:pt-6 px-3 sm:px-4'
+        }
         onClick={() => showNotifications && setShowNotifications(false)}
       >
         {viewMode === 'AGENCY' ? (
-          <LandlordDashboard />
+          <LandlordDashboard
+            onOpenCreateListing={() => setIsCreateListingOpen(true)}
+            onOpenContract={() => setIsContractOpen(true)}
+            onOpenWallet={() => setIsWalletOpen(true)}
+            onSwitchToTenant={() => {
+              setViewMode('TENANT');
+              window.scrollTo(0, 0);
+            }}
+          />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-12 gap-5 lg:gap-6">
             {/* Left Sidebar */}
